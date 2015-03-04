@@ -432,35 +432,45 @@ class Roster:
     changed = True
     while changed:
       changed = False
-      for t in range(10):
+      for t in range(8):
         ngh = self.neighbors(bestR, t)
         print 'Considering type %d: %s' % (t, typeLabel[t])
         count = 0
         #random.shuffle(ngh)
         for n in ngh:
-          count += 1
-          if count % 10000 == 0:
-            print count, bestV
-          v = self.rosterValue(n)
-          if v < bestV:
-            bestV = v
-            bestR = n
-            changed = True
+			count += 1
+			if count % 10000 == 0:
+				print count, bestV
+			v = self.rosterValue(n)
+			if v < bestV:
+				bestV = v
+				bestR = n
+				changed = True
 
-            if bestV < self._bestV:
-              self._bestV = bestV
-              self._bestR = bestR
+				if bestV < self._bestV:
+					self._bestV = bestV
+					self._bestR = bestR
 
-              print 'Best improved to', v
-              print bestR
-              
-              self.printRoster(bestR,True,'roster.txt')
- #             self.graphRoster(bestR,True)
-            else:
-              #print 'Improved to', v
-              pass
+					print 'Best improved to', v
+					#print bestR
+			  
+					self.printRoster(bestR,True,'roster.txt')
 
-            break # One bet is good enough (we've randomly choosen which)
+#				elif bestV[13] < 0.025:
+#					print 'breaking because < 2.5%'
+#					break
+				else:
+					#print 'Improved to', v
+					pass
+
+				break # One bet is good enough (we've randomly choosen which)
+			elif v[13] < 0.025:
+				print 'breaking because < 2.5%'
+				break
+			elif bestV[13] < 0.04 and count > 1000000:
+				print 'breaking because < 4% and many counts'
+				break
+			
 
         if changed: # Don't move to more complicated neighbors yet
           break
