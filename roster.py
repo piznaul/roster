@@ -11,6 +11,12 @@
 # Name1 ! Name 2  -- absolutely not on same team
 # Name  -- Teamname        -- a manager
 #
+
+#Steps to run:
+# r =roster.Roster('roster.in')
+# t = r.randomRoster()
+# r.printRoster(t,True)
+# r.hillClimb(t)
 import random
 import commands
 
