@@ -5,7 +5,7 @@
 #
 # File format (roster.in):
 #
-# Name (nickname)\tGender\tAbility or Name\tGender\tAbility
+# Name (nickname)\tGender\tAbility\tEmail or Name\tGender\tAbility\t\Email
 # Name1 : Name2   -- preferred on same team
 # Name1 = Name2   -- on same team
 # Name1 ! Name 2  -- absolutely not on same team
@@ -25,10 +25,10 @@ typeLabel = ['Move one player', 'Trade two players', 'Two for one trade', 'Three
 class Roster:
   def __init__(self, filename):
     # Constraints:
-    self._numTeams = 12
-    self._minWomen = 6
+    self._numTeams = 10
+    self._minWomen = 4
     self._minMen = 12
-    self._minTeamSize = 18
+    self._minTeamSize = 17
     self._maxTeamSize = 19
     self._totalThresh = .1  # Best team can't have more then 10% total ratings than worst
     self._sevenThresh = .1
@@ -37,6 +37,7 @@ class Roster:
     self._nameLookup = list()
     self._idLookup = dict()
     self._fullNameLookup = list()
+    self._emailLookup = list()
     self._genderLookup = list() # Id to M/F
     self._abilityLookup = list() # To to score
     self._baggage = list() # Of pairs of ids
@@ -59,7 +60,7 @@ class Roster:
         self._minTeamSize = int(l.split()[1])
       elif l.startswith('maxTeamSize'):
         self._maxTeamSize = int(l.split()[1])
-      elif l.count('\t') == 2: #temp change from 3 to 2
+      elif l.count('\t') == 3: #temp change from 3 to 2
         name = l.split('\t')[0].strip()
         self._fullNameLookup.append(name)
         if '(' in name:
@@ -72,6 +73,8 @@ class Roster:
         else:
           self._genderLookup.append('F')
         self._abilityLookup.append(int(l.split('\t')[2]))
+        email = l.split('\t')[3]
+        self._emailLookup.append(email)
       elif ':' in l:  # Baggage
         try:
           self._baggage.append( (self._idLookup[l.split(':')[0].strip()], self._idLookup[l.split(':')[1].strip()]) )
