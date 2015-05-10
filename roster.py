@@ -523,7 +523,7 @@ class Roster:
 					if b[0] == p:
 						if b[1] not in t:
 							missingBaggage.append(self._nameLookup[b[1]])
-				roster.append('%3i) ' % p + self._nameLookup[p].ljust(30) + '%s %3i \t%s' % (self._genderLookup[p], self._abilityLookup[p], '; '.join(missingBaggage)))
+				roster.append('%3i) ' % p + self._nameLookup[p].ljust(30) + self._emailLookup[p].ljust(40) +'%s %3i \t%s'  % (self._genderLookup[p], self._abilityLookup[p], '; '.join(missingBaggage)))
 
 				if len(self._baggageLookup[p]) == 1:
 					other = list(self._baggageLookup[p])[0]
